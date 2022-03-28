@@ -6,9 +6,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 class HomeScreenCarCard extends StatelessWidget {
-  Car car;
+  final Car car;
   HomeScreenCarCard({Key key,this.car}) : super(key: key);
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(
@@ -71,29 +72,43 @@ class HomeScreenCarCard extends StatelessWidget {
               ),
             ),
           ),
-          Consumer<HomeCarAnimation>(
-            builder: (context,animate,child){
-              Future.delayed(
-                Duration(seconds: 1),
-                  (){
-                    animate.animateCar();
-                  }
-              );
-              return AnimatedPositioned(
-                bottom: 0.075.sh,
-                left: animate.leftPosition.sw,
-                duration: Duration(seconds: 2),
-                child: Container(
-                  width: 0.37.sw,
-                  child: Image(
-                    image: AssetImage(
-                        car.image
-                    ),
-                  ),
+          AnimatedPositioned(
+            bottom: 0.075.sh,
+            // left: animate.leftPosition.sw,
+            left: 0.53.sw,
+            duration: Duration(seconds: 1),
+            child: Container(
+              width: 0.37.sw,
+              child: Image(
+                image: AssetImage(
+                    car.image
                 ),
-              );
-            },
+              ),
+            ),
           ),
+          // Consumer<HomeCarAnimation>(
+          //   builder: (context,animate,child){
+          //     Future.delayed(
+          //       Duration(milliseconds: 50),
+          //         (){
+          //           animate.animateCar();
+          //         }
+          //     );
+          //     return AnimatedPositioned(
+          //       bottom: 0.075.sh,
+          //       left: animate.leftPosition.sw,
+          //       duration: Duration(seconds: 1),
+          //       child: Container(
+          //         width: 0.37.sw,
+          //         child: Image(
+          //           image: AssetImage(
+          //               car.image
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
         ],
       )
     );

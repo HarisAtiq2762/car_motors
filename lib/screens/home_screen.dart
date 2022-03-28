@@ -1,10 +1,12 @@
 import 'package:car_motors/models/car.dart';
+import 'package:car_motors/screens/car_detail.dart';
 import 'package:car_motors/widgets/home_screen_widgets/home_screen_car_card.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
 
@@ -83,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Browse by categories',style: GoogleFonts.poppins(fontSize: 20.sp),),
+                    Text('Browse by categories',style: GoogleFonts.lobster(fontSize: 20.sp),),
                     SizedBox(height: 0.01.sh,),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -142,37 +144,87 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 0.01.sh,),
-                    Text('Popular cars',style: GoogleFonts.poppins(fontSize: 20.sp),),
-                    HomeScreenCarCard(
-                      car: Car(
-                          image: 'assets/images/fortuner.png',
-                          description: 'Experience the better version of power and speed with luxury cars from Toyota Pakistan',
-                          name: 'Fortuner',
-                          model: '2018',
-                          average: '11 Km/L',
-                          mileage: '10,000 Km',
-                          company: 'Toyota',
-                          price: '9500000 PKR',
-                          type: 'SUV',
-                          logoImg: ' ',
-                          engineCapacity: '2500 CC'
+                    SizedBox(height: 0.025.sh,),
+                    Text('Popular cars',style: GoogleFonts.lobster(fontSize: 20.sp),),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, PageTransition(child: CarDetail(car: Car(
+                            image: 'assets/images/fortuner.png',
+                            description: 'Experience the better version of power and speed with luxury cars from Toyota Pakistan',
+                            name: 'Fortuner',
+                            model: '2018',
+                            average: '11 Km/L',
+                            mileage: '10,000 Km',
+                            company: 'Toyota',
+                            price: '9500000 PKR',
+                            type: 'SUV',
+                            logoImg: ' ',
+                            engineCapacity: '2500 CC'
+                        ),), type: PageTransitionType.bottomToTop));
+                      },
+                      child: HomeScreenCarCard(
+                        car: Car(
+                            image: 'assets/images/fortuner.png',
+                            description: 'Experience the better version of power and speed with luxury cars from Toyota Pakistan',
+                            name: 'Fortuner',
+                            model: '2018',
+                            average: '11 Km/L',
+                            mileage: '10,000 Km',
+                            company: 'Toyota',
+                            price: '9500000 PKR',
+                            type: 'SUV',
+                            logoImg: ' ',
+                            engineCapacity: '2500 CC'
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 0.01.sh),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, PageTransition(child: CarDetail(car: Car(
+                            image: 'assets/images/brv.png',
+                            description: 'Experience the better version of power and speed with luxury cars from Honda Pakistan',
+                            name: 'Honda Br-V',
+                            model: '2016',
+                            average: '15 Km/L',
+                            mileage: '50,000 Km',
+                            company: 'Honda',
+                            price: '2500000 PKR',
+                            type: 'HatchBack',
+                            logoImg: ' ',
+                            engineCapacity: '1500 CC'
+                        ),), type: PageTransitionType.bottomToTop));
+                      },
+                      child: HomeScreenCarCard(
+                        car: Car(
+                            image: 'assets/images/brv.png',
+                            description: 'Experience the better version of power and speed with luxury cars from Honda Pakistan',
+                            name: 'Honda Br-V',
+                            model: '2016',
+                            average: '15 Km/L',
+                            mileage: '50,000 Km',
+                            company: 'Honda',
+                            price: '2500000 PKR',
+                            type: 'HatchBack',
+                            logoImg: ' ',
+                            engineCapacity: '1500 CC'
+                        ),
                       ),
                     ),
                     SizedBox(height: 0.01.sh),
                     HomeScreenCarCard(
                       car: Car(
-                          image: 'assets/images/brv.png',
-                          description: 'Experience the better version of power and speed with luxury cars from Honda Pakistan',
-                          name: 'Honda Br-V',
-                          model: '2016',
+                          image: 'assets/images/camry.png',
+                          description: 'Experience the better version of power and speed with luxury cars from Toyota Pakistan',
+                          name: 'Camry',
+                          model: '2022',
                           average: '15 Km/L',
                           mileage: '50,000 Km',
-                          company: 'Honda',
+                          company: 'Toyota',
                           price: '2500000 PKR',
-                          type: 'HatchBack',
+                          type: 'Sedan',
                           logoImg: ' ',
-                          engineCapacity: '1500 CC'
+                          engineCapacity: '2500 CC'
                       ),
                     ),
                     SizedBox(height: 0.01.sh),
