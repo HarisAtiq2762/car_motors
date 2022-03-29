@@ -1,7 +1,11 @@
+import 'package:car_motors/bloc/saveCar/save_car_bloc.dart';
+import 'package:car_motors/bloc/saveCar/save_car_event.dart';
+import 'package:car_motors/bloc/saveCar/save_car_state.dart';
 import 'package:car_motors/models/car.dart';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 class CarDetail extends StatelessWidget {
   final Car car;
   CarDetail({Key key,this.car}) : super(key: key);
+  final _saveCarBloc = SaveCarBloc();
+
+
 
   List<Widget> getInfoDetails(){
     List<Widget> infoList = [
@@ -87,7 +94,35 @@ class CarDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(icon: FaIcon(CupertinoIcons.back,size: 25.sp,color: Colors.black,), onPressed: (){Navigator.pop(context);}),
-                      FaIcon(CupertinoIcons.bookmark,size: 25.sp,color: Colors.black,),
+                      BlocConsumer<SaveCarBloc, SaveCarState>(
+                        listener: (context,state){
+                          // var icon = BlocProvider.of<SaveCarBloc>(context).state.saved?CupertinoIcons.bookmark:CupertinoIcons.bookmark_solid;
+                        },
+                        builder: (context,state){
+                          print(state.saved);
+                          return IconButton(
+                            icon: FaIcon(!BlocProvider.of<SaveCarBloc>(context).state.saved?CupertinoIcons.bookmark:CupertinoIcons.bookmark_solid,size: 25.sp,color: Colors.black,), onPressed: (){
+                              if(!BlocProvider.of<SaveCarBloc>(context).state.saved){
+                                BlocProvider.of<SaveCarBloc>(context).add(SaveEvent());
+                              }else{
+                                BlocProvider.of<SaveCarBloc>(context).add(UnSaveEvent());
+                              }
+                          });
+                          },
+                      ),
+                      // BlocProvider(
+                      //   bloc: _saveCarBloc,
+                      //   child: FaIcon(CupertinoIcons.bookmark,size: 25.sp,color: Colors.black,),
+                      //   // bloc: BlocProvider.of<SaveCarBloc>(context),
+                      //   // builder: (context,SaveCarState state){
+                      //   //   return GestureDetector(
+                      //   //     onTap: (){
+                      //   //       BlocProvider.of<SaveCarBloc>(context).onSave();
+                      //   //     },
+                      //   //     child: FaIcon(CupertinoIcons.bookmark,size: 25.sp,color: Colors.black,)
+                      //   //   );
+                      //   // },
+                      // ),
                     ],
                   ),
                 ),
@@ -134,7 +169,7 @@ class CarDetail extends StatelessWidget {
                       width: 1.0.sw,
                       height: 0.155.sh,
                       child: GridView.builder(
-                        // physics: NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 10.0,mainAxisSpacing: 10.0,childAspectRatio: 2),
                           itemCount: 6,
                           itemBuilder: (context,index){
@@ -167,98 +202,85 @@ class CarDetail extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('CONDITION',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
                                       Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
-                                  SizedBox(width: 0.3.sw,),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('MAKE',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text(car.model,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('MODEL',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text(car.model,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
-                                  SizedBox(width: 0.3.sw,),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('TYPE',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text(car.type,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
                                 ],
                               ),
-                              Row(
+                              Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('REGISTRATION',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text(car.model,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
                                   SizedBox(width: 0.3.sw,),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text('YEAR',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text('COLOR',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text(car.model,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
                                   SizedBox(width: 0.3.sw,),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text('MILAGE',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
-                                      Text('Used',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                      Text('COLOR',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
+                                      Text('Black',style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
+                                    ],
+                                  ),
+                                  SizedBox(width: 0.3.sw,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text('MILEAGE',style: GoogleFonts.poppins(color: Colors.black,fontSize: 12.sp,fontWeight: FontWeight.w200),),
+                                      Text(car.mileage,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16.sp)),
                                     ],
                                   ),
                                 ],
@@ -269,6 +291,22 @@ class CarDetail extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Center(
+                child: GestureDetector(
+                  onTap: (){},
+                  child: Container(
+                    // height: 0.08.sh,
+                    decoration: BoxDecoration(
+                        color: Color(0xff9daedb).withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Buy at '+car.price,style: GoogleFonts.poppins(fontSize: 17.0.sp,fontWeight: FontWeight.w400,color: Colors.black),),
+                    ),
+                  ),
                 ),
               ),
             ],
