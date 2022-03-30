@@ -93,7 +93,9 @@ class CarDetail extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(icon: FaIcon(CupertinoIcons.back,size: 25.sp,color: Colors.black,), onPressed: (){Navigator.pop(context);}),
+                      IconButton(icon: FaIcon(CupertinoIcons.back,size: 25.sp,color: Colors.black,), onPressed: (){
+                        Navigator.pop(context);
+                      }),
                       BlocConsumer<SaveCarBloc, SaveCarState>(
                         listener: (context,state){
                           // var icon = BlocProvider.of<SaveCarBloc>(context).state.saved?CupertinoIcons.bookmark:CupertinoIcons.bookmark_solid;
@@ -110,19 +112,6 @@ class CarDetail extends StatelessWidget {
                           });
                           },
                       ),
-                      // BlocProvider(
-                      //   bloc: _saveCarBloc,
-                      //   child: FaIcon(CupertinoIcons.bookmark,size: 25.sp,color: Colors.black,),
-                      //   // bloc: BlocProvider.of<SaveCarBloc>(context),
-                      //   // builder: (context,SaveCarState state){
-                      //   //   return GestureDetector(
-                      //   //     onTap: (){
-                      //   //       BlocProvider.of<SaveCarBloc>(context).onSave();
-                      //   //     },
-                      //   //     child: FaIcon(CupertinoIcons.bookmark,size: 25.sp,color: Colors.black,)
-                      //   //   );
-                      //   // },
-                      // ),
                     ],
                   ),
                 ),
@@ -143,10 +132,13 @@ class CarDetail extends StatelessWidget {
                           borderRadius: BorderRadius.only(topLeft: Radius.elliptical(200, 200),bottomLeft: Radius.elliptical(200, 200))
                       ),
                     ),
-                    Image(
-                      image: AssetImage(car.image),
-                      width: 1.0.sw,
-                      height: 0.35.sh,
+                    Hero(
+                      tag: car.name,
+                      child: Image(
+                        image: AssetImage(car.image),
+                        width: 1.0.sw,
+                        height: 0.35.sh,
+                      ),
                     )
                   ],
                 ),
